@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>澳客官方网 · 知识库入口</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #fce9d8 0%, #f9d8b6 40%, #f3c99a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.5rem 3rem;
+    }
+
+    /* 主容器 – 知识库目录感布局 */
+    .knowledge-archive {
+      max-width: 1280px;
+      width: 100%;
+      background: rgba(255, 248, 240, 0.3);
+      backdrop-filter: blur(4px);
+      border-radius: 48px;
+      padding: 2rem 2.2rem 2.8rem;
+      box-shadow: 0 12px 40px rgba(140, 80, 30, 0.12);
+    }
+
+    /* 标题区域 – 知识库头部 */
+    .archive-header {
+      margin-bottom: 2.8rem;
+      border-bottom: 1px solid rgba(200, 150, 100, 0.4);
+      padding-bottom: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .archive-header h1 {
+      font-size: 2.4rem;
+      font-weight: 550;
+      letter-spacing: -0.02em;
+      color: #4e3620;
+      background: linear-gradient(to right, #4f2e17, #7b4b2a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .archive-header .sub {
+      font-size: 1rem;
+      color: #7c5f44;
+      background: rgba(255, 245, 230, 0.8);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 460;
+      backdrop-filter: blur(2px);
+    }
+
+    /* 卡片网格 – 目录模块 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      background: rgba(255, 251, 245, 0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 28px;
+      padding: 1.8rem 1.6rem 2rem;
+      box-shadow: 0 6px 18px rgba(128, 78, 40, 0.08);
+      transition: all 0.2s ease;
+      border: 1px solid rgba(235, 200, 165, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 28px rgba(120, 70, 30, 0.13);
+      background: #fffaf3;
+      border-color: #dbbd9a;
+    }
+
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
+      color: #a9744c;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      font-weight: 550;
+      color: #3f2c1b;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .card p, .card li {
+      font-size: 0.98rem;
+      line-height: 1.6;
+      color: #4d3a2a;
+    }
+
+    .card ul {
+      list-style: none;
+      padding-left: 0.2rem;
+    }
+
+    .card ul li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card ul li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: #bf8f64;
+      font-weight: 600;
+    }
+
+    .tag-label {
+      display: inline-block;
+      background: #efe3d5;
+      color: #543e2b;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      margin-top: 1rem;
+      align-self: flex-start;
+      letter-spacing: 0.3px;
+      background: #e7d5c2;
+    }
+
+    /* 说明区 + 提示区 混合卡片（横向两栏） */
+    .info-panel {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .info-block {
+      background: rgba(255, 248, 240, 0.85);
+      backdrop-filter: blur(2px);
+      border-radius: 28px;
+      padding: 1.8rem 1.8rem 2rem;
+      border: 1px solid rgba(220, 185, 150, 0.25);
+      box-shadow: 0 4px 14px rgba(100, 60, 25, 0.06);
+    }
+
+    .info-block h4 {
+      font-size: 1.2rem;
+      font-weight: 530;
+      color: #4a3422;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .info-block p {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #3f2f20;
+    }
+
+    .info-block .highlight-link {
+      font-weight: 480;
+    }
+
+    .info-block .meta-note {
+      margin-top: 1.2rem;
+      padding-top: 0.8rem;
+      border-top: 1px dashed #dcc7b2;
+      font-size: 0.9rem;
+      color: #6f5641;
+    }
+
+    /* 链接按钮感 圆角 */
+    .btn-link {
+      display: inline-block;
+      background: #e6d3bd;
+      padding: 0.25rem 0.9rem;
+      border-radius: 40px;
+      color: #3d2a1a;
+      font-weight: 480;
+      transition: background 0.2s, transform 0.1s;
+      text-decoration: none;
+      border: 1px solid #d2b99d;
+    }
+
+    .btn-link:hover {
+      background: #cfb394;
+      transform: scale(1.02);
+      border-color: #b38f6a;
+    }
+
+    /* FAQ 摘要区 – 列表式 */
+    .faq-digest {
+      background: rgba(250, 242, 231, 0.7);
+      backdrop-filter: blur(2px);
+      border-radius: 28px;
+      padding: 1.5rem 2rem 2rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #e2cdb6;
+    }
+
+    .faq-digest h5 {
+      font-size: 1.2rem;
+      font-weight: 530;
+      color: #4e3621;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .faq-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #e9d9c6;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      min-width: 70px;
+      font-weight: 520;
+      color: #7f5c3b;
+    }
+
+    .faq-a {
+      color: #3b2b1d;
+      line-height: 1.6;
+      font-size: 0.96rem;
+    }
+
+    .faq-a a {
+      color: #6f4a28;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: #c7a787;
+      font-weight: 480;
+    }
+
+    /* 底部相关信息区 */
+    .related-info {
+      margin-top: 2rem;
+      padding: 0.8rem 0 0.3rem;
+      border-top: 1px solid #dcc1a8;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: #654b35;
+    }
+
+    .related-info .badge {
+      background: #eadbcb;
+      padding: 0.2rem 0.9rem;
+      border-radius: 30px;
+      color: #3b2b1d;
+    }
+
+    /* 响应式 */
+    @media (max-width: 780px) {
+      .knowledge-archive {
+        padding: 1.5rem 1rem 1.8rem;
+      }
+      .archive-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .archive-header h1 {
+        font-size: 2rem;
+      }
+      .info-panel {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .faq-digest {
+        padding: 1.2rem 1.2rem 1.6rem;
+      }
+      .faq-item {
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+      .faq-q {
+        min-width: unset;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 1.5rem 0.8rem 2rem;
+      }
+      .card-grid {
+        gap: 1.2rem;
+      }
+      .info-block {
+        padding: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="knowledge-archive">
+    <!-- 目录感头部 -->
+    <div class="archive-header">
+      <h1>📚 澳客知识库</h1>
+      <span class="sub">索引 · 说明 · 指引</span>
+    </div>
+
+    <!-- 卡片网格：结构目录 -->
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🧭</div>
+        <h3>站点定位</h3>
+        <p><a href="https://com-aoke.com" class="btn-link">澳客官方网</a> 提供信息聚合与资源索引服务。本站旨在帮助使用者快速理解平台结构，减少搜寻成本。</p>
+        <span class="tag-label">核心用途</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>内容分类</h3>
+        <ul>
+          <li>功能模块说明</li>
+          <li>操作流程概览</li>
+          <li>常见疑问摘要</li>
+          <li>相关参考与提示</li>
+        </ul>
+        <span class="tag-label">知识组织</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>快速筛选</h3>
+        <p>按场景查找：初次了解、功能确认、信息比对。页面内模块均设有简洁标记，帮助定位所需内容。</p>
+        <span class="tag-label">效率导向</span>
+      </div>
+    </div>
+
+    <!-- 说明区 + 提示区（两栏） -->
+    <div class="info-panel">
+      <div class="info-block">
+        <h4>📌 说明区</h4>
+        <p>本页作为知识库入口，汇总与 <strong><a href="https://com-aoke.com" class="btn-link">澳客官方网</a></strong> 相关的结构化资料。所有描述均基于公开信息整理，不构成任何形式的承诺或保证。使用者应结合自身判断与平台实际展示为准。</p>
+        <div class="meta-note">📎 内容版本保持更新，建议定期查阅。</div>
+      </div>
+      <div class="info-block">
+        <h4>💡 提示区</h4>
+        <p>如对某功能存在疑问，可先浏览下方 FAQ 摘要，大部分问题已归纳解答。若需更详细信息，可前往 <a href="https://com-aoke.com" class="btn-link">澳客官方网</a> 相应页面查阅。</p>
+        <p style="margin-top: 0.7rem;">🔹 注意：外部链接可能变更，请以实际访问为准。</p>
+      </div>
+    </div>
+
+    <!-- FAQ 摘要区 -->
+    <div class="faq-digest">
+      <h5>❓ 常见疑问摘要</h5>
+      <div class="faq-item">
+        <span class="faq-q">如何确认网站用途？</span>
+        <span class="faq-a">直接访问 <a href="https://com-aoke.com">澳客官方网</a> 浏览首页说明及模块分类，可快速了解整体定位。</span>
+      </div>
+      <div class="faq-item">
+        <span class="faq-q">是否有操作指引？</span>
+        <span class="faq-a">知识库内包含功能概述与流程示意，部分页面提供标注引导。建议结合平台实际界面操作。</span>
+      </div>
+      <div class="faq-item">
+        <span class="faq-q">信息可靠性如何？</span>
+        <span class="faq-a">内容基于官方公开资料梳理，但平台可能调整，请以 <a href="https://com-aoke.com">澳客官方网</a> 最新展示为准。</span>
+      </div>
+    </div>
+
+    <!-- 相关信息区 -->
+    <div class="related-info">
+      <span>📎 相关信息 · 以官方资料为参照</span>
+      <span class="badge">知识库入口 v1.2</span>
+    </div>
+  </div>
+</body>
+</html>
